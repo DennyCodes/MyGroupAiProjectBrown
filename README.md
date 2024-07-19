@@ -1,11 +1,57 @@
-To run this code you guys might need to initialize a conda environment.
+Basic git workflow:
+- Clone the repo
+```
+git clone https://github.com/gabiervo/voice_recog_final_project.git
+```
 
-To do this (with conda installed), do:
+- Edit files and then add them with:
 ```
-conda create --name env_name
+git add .
 ```
-For consistency's sake I'm adding a config file to the repo:
-So just run this command to get setup.
+The '.' just adds every file, if you only want to add a specific file just indicate its name
 ```
-conda env create -f config.yml
+git add filename.file_extension
+```
+
+- Check that everything is working
+```
+git status
+```
+This should show the files you added in 'git add'
+
+- Commit it to the repo (this does not upload the files yet)
+```
+git commit -m "description of what you did"
+```
+
+- Push it to the main repository:
+```
+git push
+```
+
+Working with branches:
+To avoid pushing bad code to the main branch we will use separate branches for everything until the code is proven to work:
+
+Create a branch:
+```
+git branch branch_name
+```
+
+Check available branches:
+```
+git branch
+```
+
+Move to one branch or another:
+```
+git checkout branch_name
+```
+
+How to merge branches to main (while being on the main branch):
+```
+git merge branch_name
+```
+#NOTE: this does not delete the branch that was merged with, to delete use:
+```
+git branch -d branch_name
 ```
