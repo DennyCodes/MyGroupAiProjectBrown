@@ -1,3 +1,6 @@
+# WHAT TO DO:
+- Convert MEL spectrogram in audio_processing to a csv
+
 # Basic git workflow:
 #### - Clone the repo
 ```
