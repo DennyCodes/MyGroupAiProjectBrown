@@ -1,0 +1,31 @@
+html, body{
+    margin: 0;
+    overflow-x: hidden;
+
+    padding: 20px;
+}
+
+div{
+    font-family: Helvetica, sans-serif;
+}
+
+#header{
+    display: flex;
+    flex-direction: column;
+}
+
+.subtitle{
+    padding-top: 8px;
+}
+
+hr.divider{
+    border: solid;
+    width: 100%;
+    border-width: 1px;
+    
+}
+
+.title{
+    font-size: 70px;
+    font-weight: bold;
+}
