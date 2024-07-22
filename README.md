@@ -1,5 +1,6 @@
 # WHAT TO DO:
-- Convert MEL spectrogram in audio_processing to a csv
+- Try uploading the data from the audio_processing section to the model
+- Make audio processing work in real time
 
 # Basic git workflow:
 #### - Clone the repo
