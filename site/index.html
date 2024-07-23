@@ -6,6 +6,7 @@
     <title>Speech to Text Project</title>
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
+    <script src="https://kit.fontawesome.com/39b0d011fa.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="header">
@@ -18,6 +19,18 @@
             
         </div>
 
+    </div>
+
+    <div id="recordingComponents">
+        <button class="startButton" onclick="toggleMic()"></button>
+        <hr class="vertical_divider">
+
+        <div id="audioVisualizer"></div>
+
+        <hr class="vertical_divider">
+        <button id="playback" onclick="play_audio()">
+            <i class="fa-solid fa-play" id="play_pause"></i>
+        </div>
     </div>
 </body>
 </html>
