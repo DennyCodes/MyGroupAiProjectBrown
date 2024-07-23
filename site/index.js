@@ -56,7 +56,9 @@ function setupAudioStream(stream){
   }
 
   recorder.onstop = async e => {
-    const blob = new Blob(chunks, {type: "audio/mp3"})
+    const blob = new Blob(chunks, {type: "audio/wav"})
+
+    const blob_file = new File([blob], "audio.wav");
     chunks = [];
 
     const audio_url = window.URL.createObjectURL(blob);
@@ -68,6 +70,7 @@ function setupAudioStream(stream){
 
     //blobToAPI(blob, "http://127.0.0.1:5000/process_audio");
     const res = await uploadBlob(audio);
+
     console.log(playback.src);
   }
 
@@ -92,7 +95,7 @@ function play_audio(){
 
 async function uploadBlob(audioBlob, fileType) {
   const formData = new FormData();
-  formData.append('audio_data', audioBlob, 'file');
+  formData.append("file", audioBlob);
   formData.append('type', fileType || 'mp3');
 
   // Your server endpoint to upload audio:

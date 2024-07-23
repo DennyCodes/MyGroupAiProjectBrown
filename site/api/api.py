@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Configure the upload folder
 UPLOAD_FOLDER = 'uploads'
@@ -13,6 +15,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/process_audio', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
+        print(request.files)
         return jsonify({'error': 'No file part'}), 400
     
     file = request.files['file']
