@@ -57,6 +57,7 @@ function setupAudioStream(stream){
 
   recorder.onstop = async e => {
     const blob = new Blob(chunks, {type: "audio/wav"})
+    convertBlobToWav(blob);
 
     const blob_file = new File([blob], "audio.wav");
     chunks = [];
@@ -69,13 +70,103 @@ function setupAudioStream(stream){
     audio.src = audio_url;
 
     //blobToAPI(blob, "http://127.0.0.1:5000/process_audio");
-    const res = await uploadBlob(audio);
 
     console.log(playback.src);
   }
 
   can_record = true;
 }
+
+function convertBlobToWav(blob) {
+  // Create a new FileReader
+  let reader = new FileReader();
+
+  // Function to handle when the FileReader has loaded the Blob
+  reader.onload = function(event) {
+      let arrayBuffer = event.target.result;
+      let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      audioContext.decodeAudioData(arrayBuffer, function(audioBuffer) {
+          let wavBuffer = audioBufferToWav(audioBuffer);
+          let wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+          uploadWavFile(wavBlob);
+      });
+  };
+
+  // Read the Blob as an ArrayBuffer
+  reader.readAsArrayBuffer(blob);
+}
+
+function audioBufferToWav(audioBuffer) {
+  let numOfChan = audioBuffer.numberOfChannels,
+      length = audioBuffer.length * numOfChan * 2 + 44,
+      buffer = new ArrayBuffer(length),
+      view = new DataView(buffer),
+      channels = [], i, sample,
+      offset = 0,
+      pos = 0;
+
+  // Write WAV header
+  setUint32(0x46464952);                         // "RIFF"
+  setUint32(length - 8);                         // file length - 8
+  setUint32(0x45564157);                         // "WAVE"
+
+  setUint32(0x20746d66);                         // "fmt " chunk
+  setUint32(16);                                 // length = 16
+  setUint16(1);                                  // PCM (uncompressed)
+  setUint16(numOfChan);
+  setUint32(audioBuffer.sampleRate);
+  setUint32(audioBuffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+  setUint16(numOfChan * 2);                      // block-align
+  setUint16(16);                                 // 16-bit (hardcoded in this demo)
+
+  setUint32(0x61746164);                         // "data" - chunk
+  setUint32(length - pos - 4);                   // chunk length
+
+  // Write interleaved data
+  for(i = 0; i < audioBuffer.numberOfChannels; i++)
+      channels.push(audioBuffer.getChannelData(i));
+
+  while(pos < length) {
+      for(i = 0; i < numOfChan; i++) {           // interleave channels
+          sample = Math.max(-1, Math.min(1, channels[i][offset])); // clamp
+          sample = (sample < 0 ? sample * 0x8000 : sample * 0x7FFF)|0; // scale to 16-bit signed int
+          view.setInt16(pos, sample, true);      // write 16-bit sample
+          pos += 2;
+      }
+      offset++;                                  // next source sample
+  }
+
+  return buffer;
+
+  function setUint16(data) {
+      view.setUint16(pos, data, true);
+      pos += 2;
+  }
+
+  function setUint32(data) {
+      view.setUint32(pos, data, true);
+      pos += 4;
+  }
+}
+
+function downloadWavFile(blob) {
+  // Create a link element
+  let link = document.createElement('a');
+  // Create a URL for the Blob and set it as the href attribute
+  link.href = URL.createObjectURL(blob);
+  // Set the download attribute with a filename
+  link.download = 'output.wav';
+  // Append the link to the body
+  document.body.appendChild(link);
+  // Programmatically click the link to trigger the download
+  link.click();
+  // Remove the link from the document
+  document.body.removeChild(link);
+}
+
+
+
 
 function play_audio(){
   if(audio != null){
@@ -93,21 +184,24 @@ function play_audio(){
   }
 }
 
-async function uploadBlob(audioBlob, fileType) {
-  const formData = new FormData();
-  formData.append("file", audioBlob);
-  formData.append('type', fileType || 'mp3');
-
-  // Your server endpoint to upload audio:
-  const apiUrl = "http://127.0.0.1:5000/process_audio";
-
-  const response = await fetch(apiUrl, {
-    method: 'POST',
-    cache: 'no-cache',
-    body: formData
+function uploadWavFile(blob) {
+  // Create a new FormData object
+  let formData = new FormData();
+  // Append the Blob to the FormData object
+  formData.append('file', blob, 'audio.wav');
+  
+  // Send the Blob to the server using fetch
+  fetch("http://127.0.0.1:5000/process_audio", {
+      method: 'POST',
+      body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Success:', data);
+  })
+  .catch((error) => {
+      console.error('Error:', error);
   });
-
-  return response.json();
 }
 
 
