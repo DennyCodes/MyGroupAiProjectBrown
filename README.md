@@ -1,6 +1,9 @@
 # WHAT TO DO:
-- Try uploading the data from the audio_processing section to the model
-- Make audio processing work in real time
+- Finish optimizer and get accuracy percentages 
+- Get API working with new version of code
+- PRIORITY: Get Demo working (send audio in, get who said it out)
+    - Training data (recording sets of phrases under PHRASES.md)
+        - Record on your own and just send it to me under gabrieliervolino1802@gmail.com
 
 # Basic git workflow:
 #### - Clone the repo
