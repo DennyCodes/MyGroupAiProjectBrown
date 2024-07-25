@@ -89,3 +89,22 @@ hr.vertical_divider{
     flex:3;
 }
 
+.submit{
+    display:block;
+    border: solid;
+
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+
+    border-width: 3px;
+
+    transition: 0.3s;
+}
+
+.submit:hover{
+    background-color: grey;
+}

@@ -150,23 +150,6 @@ function audioBufferToWav(audioBuffer) {
   }
 }
 
-function downloadWavFile(blob) {
-  // Create a link element
-  let link = document.createElement('a');
-  // Create a URL for the Blob and set it as the href attribute
-  link.href = URL.createObjectURL(blob);
-  // Set the download attribute with a filename
-  link.download = 'output.wav';
-  // Append the link to the body
-  document.body.appendChild(link);
-  // Programmatically click the link to trigger the download
-  link.click();
-  // Remove the link from the document
-  document.body.removeChild(link);
-}
-
-
-
 
 function play_audio(){
   if(audio != null){
