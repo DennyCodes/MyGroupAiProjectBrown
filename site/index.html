@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text Project</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <script src="https://kit.fontawesome.com/39b0d011fa.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="title">Voice Recognition</div>
+        <div style="padding-top: 8px;">07/2022</div>
+        <hr class="divider">
+        
+        <div class="subtitle">A project by: Ata, Bora, Deniz, Gabe, Mourad</div>
+        <div id="pythonScript"></div>
+            
+        </div>
+
+    </div>
+
+    <div id="recordingComponents">
+        <button class="startButton" onclick="toggleMic()"></button>
+        <hr class="vertical_divider">
+
+        <div id="audioVisualizer"></div>
+
+        <hr class="vertical_divider">
+        <button id="playback" onclick="play_audio()">
+            <i class="fa-solid fa-play" id="play_pause"></i>
+        </div>
+    </div>
+</body>
+</html>
