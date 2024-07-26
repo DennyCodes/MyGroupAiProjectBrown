@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
+import random
 
 app = Flask(__name__)
 CORS(app)
+
 
 # Configure the upload folder
 UPLOAD_FOLDER = 'uploads'
@@ -26,7 +28,8 @@ def upload_file():
     if file:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
-        return jsonify({'message': 'File uploaded successfully', 'file_path': file_path}), 200
+        
+        return jsonify({'message': 'Im cooked', 'file_path': file_path}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
