@@ -11,6 +11,9 @@ let recorder = null;
 
 let audio = null;
 
+let finalWavBlob = null;
+
+let transcript = null;
 
 let chunks = [];
 
@@ -89,7 +92,7 @@ function convertBlobToWav(blob) {
       audioContext.decodeAudioData(arrayBuffer, function(audioBuffer) {
           let wavBuffer = audioBufferToWav(audioBuffer);
           let wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
-          uploadWavFile(wavBlob);
+          finalWavBlob = wavBlob;
       });
   };
 
@@ -167,11 +170,13 @@ function play_audio(){
   }
 }
 
-function uploadWavFile(blob) {
+function uploadWavFile(event) {
+  event.preventDefault();
   // Create a new FormData object
   let formData = new FormData();
+  localStorage.setItem('src', audio.src);
   // Append the Blob to the FormData object
-  formData.append('file', blob, 'audio.wav');
+  formData.append('file', finalWavBlob, 'audio.wav');
   
   // Send the Blob to the server using fetch
   fetch("http://127.0.0.1:5000/process_audio", {
@@ -181,11 +186,24 @@ function uploadWavFile(blob) {
   .then(response => response.json())
   .then(data => {
       console.log('Success:', data);
+      console.log(data["message"]);
+      transcript = data["message"];
+      localStorage.setItem('transcript', transcript);
   })
   .catch((error) => {
       console.error('Error:', error);
   });
 }
 
-
 setupAudio();
+if(localStorage.getItem("src") != null){
+  console.log(localStorage.getItem("src"))
+  audio = new Audio();
+  audio.src = localStorage.getItem("src");
+}
+
+let transcriptButton = document.getElementById("pythonScript")
+console.log(localStorage.getItem("transcript"));
+if(localStorage.getItem("transcript") != ""){
+  transcriptButton.innerHTML = localStorage.getItem("transcript");
+}
