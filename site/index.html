@@ -18,7 +18,9 @@
     </div>
 
     <div id="recordingComponents">
-        <button class="startButton" onclick="toggleMic()"></button>
+        <button class="startButton" onclick="toggleMic()">
+            <i class="fa-solid fa-circle" id="record"></i>
+        </button>
         <hr class="vertical_divider">
 
         <div id="audioVisualizer"></div>
@@ -29,11 +31,13 @@
         </div>
 
         <button class="submit" type="button" id="submit" onclick="uploadWavFile(event)">
-
+            Submit
         </button>
 
     </div>
-    <div id="pythonScript"></div>
+    <div id="scriptBox">
+        <div id="pythonScript"></div>
+    </div>
 
     <script src="index.js"></script>
 </body>

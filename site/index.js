@@ -196,7 +196,7 @@ function uploadWavFile(event) {
 }
 
 setupAudio();
-if(localStorage.getItem("src") != null){
+if(localStorage.getItem("src") != ""){
   console.log(localStorage.getItem("src"))
   audio = new Audio();
   audio.src = localStorage.getItem("src");
@@ -206,4 +206,8 @@ let transcriptButton = document.getElementById("pythonScript")
 console.log(localStorage.getItem("transcript"));
 if(localStorage.getItem("transcript") != ""){
   transcriptButton.innerHTML = localStorage.getItem("transcript");
+}
+
+if(audio != null){
+  document.getElementById("audioVisualizer").innerHTML = "Audio Loaded";
 }
