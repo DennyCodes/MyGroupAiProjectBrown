@@ -170,16 +170,15 @@ function play_audio(){
   }
 }
 
-function uploadWavFile(event) {
+async function uploadWavFile(event) {
   event.preventDefault();
   // Create a new FormData object
   let formData = new FormData();
   localStorage.setItem('src', audio.src);
   // Append the Blob to the FormData object
   formData.append('file', finalWavBlob, 'audio.wav');
-  
   // Send the Blob to the server using fetch
-  fetch("http://127.0.0.1:5000/process_audio", {
+  await fetch("http://127.0.0.1:5000/process_audio", {
       method: 'POST',
       body: formData
   })
