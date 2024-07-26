@@ -108,3 +108,16 @@ hr.vertical_divider{
 .submit:hover{
     background-color: grey;
 }
+
+#audioVisualizer{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#scriptBox{
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
